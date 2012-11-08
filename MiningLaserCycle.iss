@@ -79,10 +79,16 @@ objectdef obj_MiningLaserCycle inherits obj_State
 	{
 		UI:Update["obj_MiningLaserCycle","Cycling Laser","-g"]
 		RegisteredActiveLasers:Remove[${module_to_deactivate}]
-		module_to_deactivate:Activate[${module_to_deactivate.CurrentTarget}]
+		module_to_deactivate:Deactivate[]
+		Delay:RegisterAction["MiningLaserCycle:ActivateLaser[${ml_iterator.Value}, ${module_to_deactivate.CurrentTarget}]",2000]
 		; ignore if laser no longer exists
 		; ignore if laser has been removed
 		; ignore if laser is allready off
+	}
+
+	method ActivateLaser(obj_Module module_to_deactivate, int64 Target)
+	{
+		module_to_deactivate:Activate[${Target}]
 	}
 	
 	member:bool MiningLaserCycle()
